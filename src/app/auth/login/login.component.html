@@ -34,4 +34,13 @@ Will be able to acess input variables inside the form.
         </div>
         <button class="button">Login</button>
     </div>
+    @if (
+        form.form.controls['email'].touched &&
+        form.form.controls['password'].touched &&
+        form.form.invalid
+    ) {
+        <p class="control-error">
+            Invalid values detected. Please check you input.
+        </p>
+    }
 </form>
