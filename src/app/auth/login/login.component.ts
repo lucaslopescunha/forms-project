@@ -1,5 +1,6 @@
 import { afterNextRender, Component, DestroyRef, inject, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -22,8 +23,21 @@ export class LoginComponent {
       /**
        * Every change in the form
        */
-      const subscription = this.form().valueChanges?.subscribe({
-        next: (value) => console.log(value)
+      const subscription = this.form().valueChanges?.
+      /**
+       * Will trigger subscribe only after the form is not changed
+       * for certain amount of time(500ms in this case)
+       */
+      pipe(debounceTime(500)).
+      subscribe({
+        next: (value) => {
+          window.localStorage.setItem(
+            'saved-login-form',
+            JSON.stringify({email: value.email})
+          );
+          console.log(value);
+
+        }
       });
 
       this.destroyRef.onDestroy(()=> subscription?.unsubscribe());
