@@ -19,6 +19,8 @@ Will be able to acess input variables inside the form.
                 name="email"
                 ngModel
                 required
+                email
+                #email="ngModel"
             />
         </div>
         <div class="control no-margin">
@@ -30,15 +32,14 @@ Will be able to acess input variables inside the form.
                 ngModel
                 required
                 minlength="6"
+                #password="ngModel"
             />
         </div>
         <button class="button">Login</button>
     </div>
-    @if (
-        form.form.controls['email'].touched &&
-        form.form.controls['password'].touched &&
-        form.form.invalid
-    ) {
+    @if ( email.touched &&
+        password.touched &&
+        form.form.invalid ) {
         <p class="control-error">
             Invalid values detected. Please check you input.
         </p>
