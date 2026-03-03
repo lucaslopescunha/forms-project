@@ -38,10 +38,18 @@ Will be able to acess input variables inside the form.
         <button class="button">Login</button>
     </div>
     @if ( email.touched &&
-        password.touched &&
-        form.form.invalid ) {
+        email.dirty &&
+        email.invalid ) {
         <p class="control-error">
-            Invalid values detected. Please check you input.
+            Invalid email address entered.
         </p>
     }
+    @if ( password.touched &&
+        password.dirty &&
+        password.invalid ) {
+        <p class="control-error">
+            Invalid password entered - must be at least 6 characters long.
+        </p>
+    }
+
 </form>
