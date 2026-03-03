@@ -1,0 +1,24 @@
+<!-- #form to be accessed by angular
+will bind #form template variable to a form of type NgForm object.
+Will be able to acess input variables inside the form.
+(ngSubmit) is another form's related feature provided by angular
+-->
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <h2>Login</h2>
+    <div class="control-row">
+        <div class="control no-margin">
+            <label for="email">Email</label>
+            <!-- ngModel makes angular aware of this input. You have to use the name
+              property in conjunction with ngModel
+            <input id="email" type="email" name="email" ngModel />
+              
+              -->
+            <input id="email" type="email" name="email" ngModel />
+        </div>
+        <div class="control no-margin">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" ngModel>
+        </div>
+        <button class="button">Login</button>
+    </div>
+</form>
