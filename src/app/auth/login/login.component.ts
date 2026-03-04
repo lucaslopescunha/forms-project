@@ -14,38 +14,53 @@ export class LoginComponent {
    */
   private form = viewChild.required<NgForm>('form');
   private destroyRef = inject(DestroyRef);
-  
+
   constructor() {
+
     /**
      * Once this component has been rendered for the 1st time
      */
-    afterNextRender( () => {
+    afterNextRender(() => {
+      const savedForm = window.localStorage.getItem('saved-login-form');
+      if (savedForm) {
+        const loadedFormData = JSON.parse(savedForm);
+        const savedEmail = loadedFormData.email;
+        // this.form().controls['email'].setValue(savedEmail);
+        setTimeout(() => {
+          this.form().setValue({
+            email: savedEmail,
+            password: ''
+          });
+
+        }, 1);
+      }
+
       /**
        * Every change in the form
        */
       const subscription = this.form().valueChanges?.
-      /**
-       * Will trigger subscribe only after the form is not changed
-       * for certain amount of time(500ms in this case)
-       */
-      pipe(debounceTime(500)).
-      subscribe({
-        next: (value) => {
-          window.localStorage.setItem(
-            'saved-login-form',
-            JSON.stringify({email: value.email})
-          );
-          console.log(value);
+        /**
+         * Will trigger subscribe only after the form is not changed
+         * for certain amount of time(500ms in this case)
+         */
+        pipe(debounceTime(500)).
+        subscribe({
+          next: (value) => {
+            window.localStorage.setItem(
+              'saved-login-form',
+              JSON.stringify({ email: value.email })
+            );
+            console.log(value);
 
-        }
-      });
+          }
+        });
 
-      this.destroyRef.onDestroy(()=> subscription?.unsubscribe());
+      this.destroyRef.onDestroy(() => subscription?.unsubscribe());
     });
   }
 
   onSubmit(form: NgForm) {
-    if(form.form.invalid) {
+    if (form.form.invalid) {
       return;
     }
 
